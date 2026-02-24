@@ -523,21 +523,48 @@
     justify-content: center;
   }
 
-  .menu-form {
+  .guest-letter {
     max-width: 760px;
     width: 100%;
+    margin: 0 auto;
+    border-radius: 22px;
+    border: 1px solid rgba(181, 135, 121, 0.32);
+    background:
+      linear-gradient(145deg, rgba(255, 255, 255, 0.88), rgba(255, 246, 238, 0.84));
+    box-shadow: 0 20px 36px rgba(128, 85, 73, 0.12);
+    padding: 18px;
   }
 
-  .guest-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
-    width: 100%;
+  .guest-letter-scroll {
+    max-height: min(46vh, 420px);
+    overflow-y: auto;
+    padding: 22px 20px;
+    border-radius: 16px;
+    border: 1px solid rgba(185, 145, 129, 0.22);
+    background:
+      linear-gradient(180deg, rgba(255, 252, 247, 0.98) 0%, rgba(255, 249, 242, 0.96) 100%);
+    text-align: left;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(185, 145, 129, 0.7) rgba(255, 248, 240, 0.9);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 9%, #000 91%, transparent 100%);
+    mask-image: linear-gradient(to bottom, transparent 0, #000 9%, #000 91%, transparent 100%);
   }
 
-  .guest-row input,
-  .guest-row select {
-    width: 100%;
+  .guest-letter-scroll::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .guest-letter-scroll::-webkit-scrollbar-thumb {
+    background: rgba(185, 145, 129, 0.7);
+    border-radius: 999px;
+  }
+
+  .guest-letter-scroll::-webkit-scrollbar-track {
+    background: rgba(255, 248, 240, 0.9);
+  }
+
+  .guest-letter-scroll p {
+    margin-bottom: 16px;
   }
 
   #closing {
@@ -585,7 +612,37 @@
   }
 
   @media (max-width: 760px) {
-    .guest-row {
-      grid-template-columns: 1fr;
+    .section {
+      padding: 72px 16px;
+    }
+
+    .section h2 {
+      font-size: clamp(32px, 9vw, 44px);
+      margin-bottom: 26px;
+    }
+
+    p {
+      font-size: clamp(18px, 4.8vw, 22px);
+      line-height: 1.65;
+    }
+
+    .scroll-hint {
+      width: 52px;
+      height: 52px;
+      font-size: 30px;
+    }
+
+    .map-frame iframe {
+      min-height: 300px;
+    }
+
+    .guest-letter {
+      padding: 14px;
+      border-radius: 16px;
+    }
+
+    .guest-letter-scroll {
+      max-height: 50vh;
+      padding: 18px 14px;
     }
   }
