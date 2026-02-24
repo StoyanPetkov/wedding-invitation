@@ -33,13 +33,10 @@
   <div class="envelope" id="envelope">
     <div class="envelope-letter">
       <h1 class="intro-names">Стоян & Весела</h1>
-      <p class="intro-sub">6 Септември 2026 • София</p>
     </div>
     <div class="envelope-front">
       <div class="front-design">
-        <p class="front-kicker">Сватбено тържество</p>
         <h2 class="front-title">Сватбена покана</h2>
-        <p class="front-note">Натиснете, за да отворите</p>
       </div>
       <button id="enterBtn" type="button">Отвори</button>
     </div>
@@ -53,6 +50,14 @@
 <audio id="bgMusic" loop>
     <source src="music.mp3" type="audio/mpeg">
 </audio>
+
+<section id="story" class="section">
+  <div class="video-wrapper">
+    <video controls muted playsinline>
+      <source src="intro.mp4" type="video/mp4">
+    </video>
+  </div>
+</section>
 
 <header class="hero fade">
   <div class="hero-content">
@@ -77,32 +82,15 @@
         <span class="countdown-label">Секунди</span>
       </div>
     </div>
-    <a href="#celebration" class="btn">Детайли</a>
+    <a href="#celebration" class="scroll-hint" aria-label="Към детайлите" title="Към детайлите">↓</a>
   </div>
 </header>
 
-<section id="story" class="section fade">
-  <h2>Reel</h2>
-  <div class="video-wrapper">
-    <video controls>
-      <source src="intro.mp4" type="video/mp4">
-    </video>
-  </div>
-</section>
-
 <section id="celebration" class="section celebration fade">
   <h2>Сватбата</h2>
-  <div class="info-grid">
-    <div>
-      <h3>Дата</h3>
-      <p>Неделя, 6 Септември 2026</p>
-    </div>
-    <div>
-      <h3>Място</h3>
-      <p>Хотел Шератон</p>
-      <p>София, България</p>
-      <a href="https://www.google.com/maps/place/Sofia+Balkan+Palace/@42.6970261,23.3197244,17z/data=!3m1!4b1!4m9!3m8!1s0x40aa856ec9cdbfd1:0xd9b39e6fedb37125!5m2!4m1!1i2!8m2!3d42.6970261!4d23.3223047!16s%2Fg%2F11b6lk533r?entry=ttu&g_ep=EgoyMDI2MDIxOC4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="btn-outline">Локация</a>
-    </div>
+  <div class="celebration-lines">
+    <p>Дата: Неделя, 6 Септември 2026</p>
+    <p>Място: Шератон, София</p>
   </div>
   <div class="map-frame">
     <iframe
@@ -112,36 +100,47 @@
       referrerpolicy="no-referrer-when-downgrade">
     </iframe>
   </div>
+  <a href="#timeline" class="scroll-hint" aria-label="Към програмата" title="Към програмата">↓</a>
 </section>
 
-<section class="section timeline fade">
+<section id="timeline" class="section timeline fade screen-section">
   <h2>Програма</h2>
   <div class="timeline-list">
-    <div><span>12:20</span> Граждански брак</div>
     <div><span>18:00</span> Църковен брак</div>
     <div><span>18:30</span> Коктейл за добре дошли</div>
     <div><span>19:30</span> Празненството</div>
   </div>
+  <a href="#rsvp" class="scroll-hint" aria-label="Към RSVP" title="Към RSVP">↓</a>
 </section>
 
 <!-- RSVP -->
-<section class="section rsvp fade">
-  <h2>Моля, потвърдете присъствието си</h2>
+<section id="rsvp" class="section rsvp fade screen-section">
+  <h2>Изберете меню</h2>
 
   <!-- Replace your@email.com -->
-  <form action="https://formsubmit.co/stoyan.petkov91@gmail.com" method="POST">
-    <input type="text" name="name" placeholder="Your Name" required>
-    <select name="attendance" required>
-      <option value="" selected disabled>Ще присъствате ли?</option>
-      <option value="Yes">Да</option>
-      <option value="No">Ще питам жената</option>
-    </select>
+  <form class="menu-form" action="https://formsubmit.co/stoyan.petkov91@gmail.com" method="POST" autocomplete="off">
+    <div class="guest-row">
+      <input type="text" name="guest_name_1" placeholder="Име на гост 1" required>
+      <select name="guest_menu_1" required>
+        <option value="" selected hidden>Меню за гост 1</option>
+        <option value="Меню 1">Меню 1</option>
+        <option value="Меню 2">Меню 2</option>
+      </select>
+    </div>
+    <div class="guest-row">
+      <input type="text" name="guest_name_2" placeholder="Име на гост 2" required>
+      <select name="guest_menu_2" required>
+        <option value="" selected hidden>Меню за гост 2</option>
+        <option value="Меню 1">Меню 1</option>
+        <option value="Меню 2">Меню 2</option>
+      </select>
+    </div>
     <textarea name="message" placeholder="Leave a message"></textarea>
     <button type="submit" class="btn">Изпрати</button>
   </form>
 </section>
 
-<section class="section closing fade">
+<section id="closing" class="section closing fade">
   <h2 class="closing-text">Нямаме търпение да Ви видим на нашата сватба!</h2>
 </section>
 

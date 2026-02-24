@@ -5,9 +5,22 @@ const params = new URLSearchParams(window.location.search);
 const name = params.get("name");
 const guestEl = document.getElementById("guestName");
 
-guestEl.innerText = name
-  ? `Скъпи ${name}, с удоволствие Ви каним на нашата сватба.`
-  : "С удоволствие Ви каним на нашата сватба.";
+if ("scrollRestoration" in history) {
+  history.scrollRestoration = "manual";
+}
+
+window.addEventListener("load", () => {
+  window.scrollTo(0, 0);
+});
+
+if (name) {
+  guestEl.textContent = "";
+  guestEl.append(`Скъпи ${name}`);
+  guestEl.appendChild(document.createElement("br"));
+  guestEl.append("с удоволствие Ви каним на нашата сватба.");
+} else {
+  guestEl.innerText = "С удоволствие Ви каним на нашата сватба.";
+}
 
 // ===============================
 // COUNTDOWN
@@ -54,14 +67,46 @@ const enterBtn = document.getElementById("enterBtn");
 const bgMusic = document.getElementById("bgMusic");
 const musicToggle = document.getElementById("musicToggle");
 const video = document.querySelector("#story video");
+const storySection = document.getElementById("story");
+const heroSection = document.querySelector("header.hero");
+const guestMenuSelects = document.querySelectorAll('select[name^="guest_menu_"]');
 
 let musicPlaying = false;
 let introOpened = false;
 
+guestMenuSelects.forEach(select => {
+  select.selectedIndex = 0;
+});
+
+function smoothScrollTo(targetY, duration = 1800) {
+  const startY = window.scrollY;
+  const distance = targetY - startY;
+  const startTime = performance.now();
+
+  function easeInOutCubic(t) {
+    return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  }
+
+  function step(now) {
+    const elapsed = now - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    const eased = easeInOutCubic(progress);
+    window.scrollTo(0, startY + distance * eased);
+    if (progress < 1) {
+      requestAnimationFrame(step);
+    }
+  }
+
+  requestAnimationFrame(step);
+}
+
 // Smooth fade in
 function fadeInMusic() {
   bgMusic.volume = 0;
-  bgMusic.play();
+  const playPromise = bgMusic.play();
+  if (playPromise) {
+    playPromise.catch(() => {});
+  }
   musicPlaying = true;
 
   let vol = 0;
@@ -97,38 +142,54 @@ enterBtn.addEventListener("click", () => {
   if (introOpened) return;
   introOpened = true;
 
-  introScreen.classList.add("opening");
-  fadeInMusic();
-  musicToggle.style.display = "block";
+  const beginMainFlow = () => {
+    if (introScreen) {
+      introScreen.remove();
+    }
+    if (storySection) {
+      const storyTop = storySection.getBoundingClientRect().top + window.scrollY;
+      window.scrollTo({ top: storyTop, behavior: "auto" });
+    }
+    if (video) {
+      video.currentTime = 0;
+      fadeInMusic();
+      musicToggle.style.display = "block";
+      const playPromise = video.play();
+      if (playPromise) {
+        playPromise.catch(() => {});
+      }
+    } else {
+      fadeInMusic();
+      musicToggle.style.display = "block";
+    }
+  };
 
-  setTimeout(() => {
-    introScreen.classList.add("fade-out");
-  }, 1450);
+  if (video) {
+    video.muted = true;
+    video.volume = 0;
+  }
 
-  setTimeout(() => {
-    introScreen.style.display = "none";
-  }, 2450);
+  if (introScreen) {
+    introScreen.classList.add("opening");
+    setTimeout(() => {
+      introScreen.classList.add("fade-out");
+    }, 2300);
+    setTimeout(beginMainFlow, 4000);
+  } else {
+    beginMainFlow();
+  }
 });
 
 // ===============================
 // VIDEO INTERACTION
 // ===============================
 if (video) {
-  video.addEventListener("play", () => {
-    if (musicPlaying) {
-      bgMusic.volume = 0.1; // lower music
-    }
-  });
-
-  video.addEventListener("pause", () => {
-    if (musicPlaying) {
-      bgMusic.volume = 0.5; // restore music
-    }
-  });
-
   video.addEventListener("ended", () => {
-    if (musicPlaying) {
-      bgMusic.volume = 0.5;
+    if (heroSection) {
+      const heroTop = heroSection.getBoundingClientRect().top + window.scrollY;
+      setTimeout(() => {
+        smoothScrollTo(heroTop, 2200);
+      }, 1000);
     }
   });
 }
